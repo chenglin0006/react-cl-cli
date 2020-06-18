@@ -44,6 +44,7 @@ next && go()
 
 function go() {
     next.then(projectRoot => {
+        console.log('projectRoot',projectRoot);
         if (projectRoot !== '.') {
             fs.mkdirSync(projectRoot)
         }
@@ -55,6 +56,7 @@ function go() {
             }
         })
     }).then(context => { // 交互问答，配置项目信息
+        console.log('context',context);
         return inquirer.prompt([{
             name: 'projectName',
             message: '项目名称',
@@ -76,6 +78,7 @@ function go() {
             }
         })
     }).then(context => {
+        console.log('context',context);
         return generator(context.metadata, context.downloadTemp) // 渲染项目模板
     }).then(context => {
         // 成功用绿色显示，给出积极的反馈
