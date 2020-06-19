@@ -3,7 +3,7 @@
 how to use:
 
 ``` base
-npm i -g react-cli-cl
+npm i -g react-cl-cli
 
-react-cli-cl init <project-name>
+react-cl-cli init <project-name>
 ```
