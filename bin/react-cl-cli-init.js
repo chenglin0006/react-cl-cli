@@ -43,24 +43,12 @@ if (list.length) {
 next && go()
 
 function go() {
-    next.then(projectRoot => {
+    next.then(projectRoot=>{
         console.log('projectRoot',projectRoot);
-        if (projectRoot !== '.') {
-            fs.mkdirSync(projectRoot)
-        }
-        return download(projectRoot).then(target => { // 下载项目模板
-            return {
-                name: projectRoot,
-                root: projectRoot,
-                downloadTemp: target.downloadTemp
-            }
-        })
-    }).then(context => { // 交互问答，配置项目信息
-        console.log('context',context);
         return inquirer.prompt([{
             name: 'projectName',
             message: '项目名称',
-            default: context.name
+            default: projectRoot
         }, {
             name: 'projectVersion',
             message: '项目版本号',
@@ -68,13 +56,32 @@ function go() {
         }, {
             name: 'projectDescription',
             message: '项目简介',
-            default: `A project named ${context.name}`
+            default: `A project named ${projectRoot}`
+        }, {
+            name: 'ifh5',
+            message: '是否是h5项目模版(yes or no)',
+            default: 'no'
         }]).then(answers => {
             return {
-                ...context,
+                projectRoot,
                 metadata: {
                     ...answers
                 }
+            }
+        })
+    })
+    .then(tempObj => {
+        const { projectRoot,metadata } = tempObj;
+        console.log('tempObj',tempObj);
+        if (projectRoot !== '.') {
+            fs.mkdirSync(projectRoot)
+        }
+        return download(projectRoot, metadata).then(target => { // 下载项目模板
+            return {
+                name: projectRoot,
+                root: projectRoot,
+                downloadTemp: target.downloadTemp,
+                metadata:metadata,
             }
         })
     }).then(context => {

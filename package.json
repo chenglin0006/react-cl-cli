@@ -1,6 +1,6 @@
 {
     "name": "react-cl-cli",
-    "version": "1.0.3",
+    "version": "1.0.6",
     "description": "自用平台脚手架",
     "keywords": ["cli", "react-cl-cli"],
     "bin": {
